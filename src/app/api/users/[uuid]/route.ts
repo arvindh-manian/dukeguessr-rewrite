@@ -6,7 +6,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { uuid: string } },
 ): Promise<NextResponse<(Account & Record) | null>> {
-  console.log(params);
   const { uuid } = params;
   const profile: (Account & Record) | null | undefined = await getProfile(uuid);
   if (!profile) {

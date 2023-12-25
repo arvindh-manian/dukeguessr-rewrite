@@ -6,7 +6,6 @@ export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<Account | null | ErrorMessage>> {
   const account = (await request.json()) as Account;
-  console.log(account);
   try {
     const res = await addUser(
       account.username,
