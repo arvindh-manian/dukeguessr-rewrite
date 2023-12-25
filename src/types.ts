@@ -40,11 +40,11 @@ export interface Record {
   high_score: number;
   avg_score: number;
   games_played: number;
-  within_10_feet: boolean,
-  over_1000_miles: boolean,
-  one_game_played: boolean,
-  five_games_played: boolean,
-  ten_games_played: boolean
+  within_10_feet: boolean;
+  over_1000_miles: boolean;
+  one_game_played: boolean;
+  five_games_played: boolean;
+  ten_games_played: boolean;
 }
 
 export interface ErrorMessage {

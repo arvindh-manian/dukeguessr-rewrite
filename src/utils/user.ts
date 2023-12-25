@@ -12,11 +12,13 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[] | null> {
   return resp.rows as unknown as LeaderboardEntry[];
 }
 
-export async function getProfile (username: string): Promise<(Account & Record) | null | undefined> {
+export async function getProfile(
+  username: string,
+): Promise<(Account & Record) | null | undefined> {
   const text = await query(
-    'SELECT * FROM account LEFT JOIN records ON records.username = account.username WHERE account.username=$1',
-    [username]
-  )
+    "SELECT * FROM account LEFT JOIN records ON records.username = account.username WHERE account.username=$1",
+    [username],
+  );
   return text.rows[0] as unknown as Account & Record;
 }
 
@@ -24,11 +26,11 @@ export async function getProfile (username: string): Promise<(Account & Record) 
 export async function addUser(
   username: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<boolean> {
   const text = await query(
     "INSERT INTO account (username, email, password) VALUES ($1, $2, $3)",
-    [username, email, password]
+    [username, email, password],
   );
   if (text !== null && text.rowCount !== null) {
     return text.rowCount > 0;
