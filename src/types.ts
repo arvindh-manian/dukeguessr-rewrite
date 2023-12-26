@@ -34,3 +34,8 @@ export interface LeaderboardEntry {
   avg_score: number;
   games_played: number;
 }
+
+export interface ModeImage {
+  text: string;
+  imageURL: string;
+}
