@@ -55,3 +55,8 @@ export interface NavbarItem {
   link: string;
   text: string;
 }
+
+
+export interface CountObject {
+  count: number;
+}
