@@ -29,8 +29,6 @@ export default async function Leaderboard({
       <RenderedLeaderboard entries={entries as LeaderboardEntry[]} />
       <Pagination
         numEntries={totalLeaderboardSize}
-        start={start}
-        end={end}
         page={page}
         limit={limit}
       />
@@ -77,14 +75,10 @@ const RenderedLeaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => {
 
 const Pagination = ({
   numEntries,
-  start,
-  end,
   page,
   limit,
 }: {
   numEntries: number;
-  start: number;
-  end: number;
   page: number;
   limit: number;
 }) => {
