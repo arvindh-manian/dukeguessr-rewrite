@@ -50,3 +50,8 @@ export interface Record {
 export interface ErrorMessage {
   message: string;
 }
+
+export interface NavbarItem {
+  link: string;
+  text: string;
+}
