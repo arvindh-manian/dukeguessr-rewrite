@@ -1,15 +1,28 @@
 import query from "./db";
-import { LeaderboardEntry } from "../types";
-import { Account, Record } from "../types";
+import { Account, Record, CountObject, LeaderboardEntry } from "../types";
 
 // todo: add pagination
-export async function getLeaderboard(): Promise<LeaderboardEntry[] | null> {
-  const resp = await query(`SELECT 
+export async function getLeaderboard(
+  page: number,
+  limit: number,
+): Promise<LeaderboardEntry[] | null> {
+  const resp = await query(
+    `SELECT 
     account.username, records.high_score, records.avg_score, records.games_played 
     FROM account
     LEFT JOIN records ON records.username = account.username
-    ORDER BY records.high_score DESC NULLS LAST`);
+    ORDER BY records.high_score DESC NULLS LAST
+    OFFSET $1 ROWS
+    FETCH NEXT $2 ROWS ONLY`,
+    [(page - 1) * limit, limit],
+  );
   return resp.rows as unknown as LeaderboardEntry[];
+}
+
+export async function getLeaderboardSize(): Promise<number> {
+  const resp = await query("SELECT COUNT(*) FROM account");
+  const { count } = resp.rows[0] as unknown as CountObject;
+  return count;
 }
 
 export async function getProfile(
