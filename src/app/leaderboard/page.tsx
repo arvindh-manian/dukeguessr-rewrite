@@ -3,7 +3,11 @@ import { getLeaderboard, getLeaderboardSize } from "@/utils/user";
 import { LinkButton } from "@/components/linkbutton";
 import Link from "next/link";
 
-export default async function Leaderboard({searchParams}: {searchParams: { [key: string]: string | undefined }}) {
+export default async function Leaderboard({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const page = Number(searchParams.page ?? 1);
   const limit = Number(searchParams.limit ?? 15);
   const entries = await getLeaderboard(page, limit);
@@ -16,12 +20,22 @@ export default async function Leaderboard({searchParams}: {searchParams: { [key:
   const start = (page - 1) * limit + 1;
   const end = Math.min(start + limit - 1, totalLeaderboardSize);
 
-  return <div className="flex flex-col gap-4 ">
-    <h1 className="text-3xl font-bold">Leaderboard</h1>
-    <p className="text-xl">Showing entries {start} to {end} of {totalLeaderboardSize}</p>
-    <RenderedLeaderboard entries={entries as LeaderboardEntry[]} />
-    <Pagination numEntries={totalLeaderboardSize} start={start} end={end} page={page} limit={limit} />
-  </div>
+  return (
+    <div className="flex flex-col gap-4 ">
+      <h1 className="text-3xl font-bold">Leaderboard</h1>
+      <p className="text-xl">
+        Showing entries {start} to {end} of {totalLeaderboardSize}
+      </p>
+      <RenderedLeaderboard entries={entries as LeaderboardEntry[]} />
+      <Pagination
+        numEntries={totalLeaderboardSize}
+        start={start}
+        end={end}
+        page={page}
+        limit={limit}
+      />
+    </div>
+  );
 }
 
 const RenderedLeaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => {
@@ -61,11 +75,43 @@ const RenderedLeaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => {
   );
 };
 
-const Pagination = ({numEntries, start, end, page, limit}: {numEntries: number, start: number, end: number, page: number, limit: number}) => {
-  return <div className="text-xl flex justify-between gap-6">
-    <LinkButton href={`/leaderboard?page=1&limit=${limit}`} text="First"></LinkButton>
-    <LinkButton href={`/leaderboard?page=${Math.max(page - 1, 1)}&limit=${limit}`} text="Previous" ></LinkButton>
-    <LinkButton href={`/leaderboard?page=${Math.min(page + 1, Math.ceil(numEntries / limit))}&limit=${limit}`} text="Next" className="ml-auto"></LinkButton>
-    <LinkButton href={`/leaderboard?page=${Math.ceil(numEntries / limit)}&limit=${limit}`} text="Last"></LinkButton>
-  </div>
-}
+const Pagination = ({
+  numEntries,
+  start,
+  end,
+  page,
+  limit,
+}: {
+  numEntries: number;
+  start: number;
+  end: number;
+  page: number;
+  limit: number;
+}) => {
+  return (
+    <div className="text-xl flex justify-between gap-6">
+      <LinkButton
+        href={`/leaderboard?page=1&limit=${limit}`}
+        text="First"
+      ></LinkButton>
+      <LinkButton
+        href={`/leaderboard?page=${Math.max(page - 1, 1)}&limit=${limit}`}
+        text="Previous"
+      ></LinkButton>
+      <LinkButton
+        href={`/leaderboard?page=${Math.min(
+          page + 1,
+          Math.ceil(numEntries / limit),
+        )}&limit=${limit}`}
+        text="Next"
+        className="ml-auto"
+      ></LinkButton>
+      <LinkButton
+        href={`/leaderboard?page=${Math.ceil(
+          numEntries / limit,
+        )}&limit=${limit}`}
+        text="Last"
+      ></LinkButton>
+    </div>
+  );
+};
