@@ -35,9 +35,12 @@ export interface LeaderboardEntry {
   games_played: number;
 }
 
-export interface ModeImage {
-  text: string;
+//dimensions and fontSize in pixels
+export interface TextImage {
   imageURL: string;
+  dimensions?: { width: number, height: number};
+  text?: string;
+  fontSize?: number;
 }
 
 export interface Record {
